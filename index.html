@@ -769,6 +769,45 @@ html.intro .kband::before{animation-delay:3.3s}
   .band.shot .wrap{min-height:0}
   #voices .qimg{width:100%;height:130%;opacity:.42;object-position:60% 0%}
 }
+
+/* ================= round 8: the three phase headers filter the roadmap ================= */
+/* filled means shown: with no filter all three are filled, with a filter only the chosen phase stays filled */
+.gph .gp{-webkit-appearance:none;appearance:none;border:0;margin:0;font:inherit;text-align:left;cursor:pointer;position:relative;min-width:0;background:var(--ink-tile);color:var(--ink-mute);padding:.6rem .75rem .65rem;font-size:var(--s-2);line-height:1.3;white-space:nowrap;overflow:hidden;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);transition:background-color .3s,color .3s}
+.gph .gp b{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;transition:color .3s}
+.gph .gp b i{font-style:normal;font-family:var(--body);font-stretch:108%;font-weight:400;font-size:var(--s-2);color:var(--ink-mute);font-variant-numeric:tabular-nums;transition:color .3s}
+.gph .gp::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--red);box-shadow:0 0 12px var(--glow);transform:scaleX(0);transform-origin:0 50%;transition:transform .45s var(--ease2)}
+.gph .gp[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.gph .gp[aria-pressed="true"] b,.gph .gp[aria-pressed="true"] b i{color:var(--bg)}
+.gph .gp[aria-pressed="true"]::before{transform:scaleX(1)}
+.gantt[data-ph] .gp[aria-pressed="false"]{background:var(--tile2);color:var(--mute)}
+.gantt[data-ph] .gp[aria-pressed="false"] b,.gantt[data-ph] .gp[aria-pressed="false"] b i{color:var(--mute)}
+@media (hover:hover){
+  .gph .gp:hover::before{transform:scaleX(1)}
+  .gph .gp[aria-pressed="false"]:hover,.gph .gp[aria-pressed="false"]:hover b{color:var(--ink-fg)}
+  .gantt[data-ph] .gp[aria-pressed="false"]:hover,.gantt[data-ph] .gp[aria-pressed="false"]:hover b{color:var(--fg)}
+}
+.gph .gp:focus-visible{outline:2px solid var(--red);outline-offset:-4px}
+
+/* what the filter is showing, with a way back */
+.gxl{display:flex;flex-direction:column;justify-content:flex-end;gap:.2rem}
+.gfs{display:flex;flex-wrap:wrap;align-items:baseline;gap:.15rem .8rem;color:var(--fg);font-weight:600}
+.gfs:empty{display:none}
+.gall{font:inherit;font-weight:600;color:var(--fg);background:none;border:0;padding:0;margin:0;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em}
+.gall:hover{text-decoration-thickness:2px}
+
+/* the chosen phase is marked down the tracks, and the list re-forms when the filter changes */
+.gtk::before{content:"";position:absolute;top:0;bottom:0;left:0;width:33.333%;background:var(--fg);opacity:0;transition:opacity .35s;pointer-events:none}
+.gantt[data-ph] .gtk::before{opacity:.06}
+.gantt[data-ph="Next"] .gtk::before{left:33.333%}
+.gantt[data-ph="Later"] .gtk::before{left:66.667%}
+.gantt.refil .gar:not([hidden]){animation:rowin .5s var(--ease2) both;animation-delay:calc(var(--j,0)*.05s)}
+.gantt.refil .gar:not([hidden]) .gb{animation:gx2 .75s var(--ease2) backwards;animation-delay:calc(.08s + var(--j,0)*.05s)}
+@keyframes rowin{from{opacity:0;transform:translateY(8px)}}
+@keyframes gx2{from{transform:scaleX(0)}}
+@media (max-width:720px){
+  .gph .gp{padding:.5rem .5rem .55rem}
+  .gxl{padding-bottom:.5rem}
+}
 </style>
 <script>(function(){var d=document.documentElement;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return}catch(e){}d.classList.add('intro');setTimeout(function(){d.classList.add('intro-done')},3200)})();</script>
 </head>
@@ -880,7 +919,7 @@ html.intro .kband::before{animation-delay:3.3s}
 
 <section id="actions"><div class="wrap">
   <div class="sh rv"><div><p class="kicker">Recommendations</p><h2>What Audi Egypt should do, and how to know it worked</h2></div>
-  <p class="sub">Ten actions in three phases. Each one has an owner, a deadline and a number to move. Select an action to see the plan behind it.</p></div>
+  <p class="sub">Ten actions in three phases. Each one has an owner, a deadline and a number to move. Select a phase to filter the list, or an action to see the plan behind it.</p></div>
   <div class="otg" id="otg"></div>
   <div class="plan">
     <div class="gantt rv" id="gantt" role="group" aria-label="Roadmap of the ten actions"></div>
@@ -1145,11 +1184,17 @@ function kpiViz(o){
   const w=el('div'),ft=el('div','ft'),f=el('span','fr'),ar=el('span','ar'),tg=el('span','to');f.append(el('small','','Today'),el('b','',pct(o.base)));ar.setAttribute('aria-hidden','true');tg.append(el('small','','Target'),el('b','',pct(o.target)));ft.append(f,ar,tg);
   const tk=el('div','tk');tk.setAttribute('aria-hidden','true');const lo=Math.min(o.base,o.target),hi=Math.max(o.base,o.target),sg=el('i','sg'),bm=el('i','bm'),tm=el('i','tm');
   sg.style.setProperty('--a',lo+'%');sg.style.setProperty('--w',(hi-lo)+'%');sg.style.transformOrigin=(o.dir==='up'?'0':'100%')+' 50%';bm.style.setProperty('--b',o.base+'%');tm.style.setProperty('--t',o.target+'%');tk.append(sg,bm,tm);w.append(ft,tk);return w}
-let rsel='R1';
+let rsel='R1',phsel=null;
 const narrowPlan=matchMedia('(max-width:1099px)');
 D.outcomes.forEach((o,i)=>{const c=el('div','ot rv');c.style.setProperty('--d',(i*.07)+'s');const by=el('p','meta by');by.append(el('span','','Moved by'));o.by.split(', ').forEach(id=>{const b=el('button','rb',id);b.type='button';b.setAttribute('aria-label','Show action '+id);b.onclick=()=>pickRec(id);by.append(b)});
   c.append(el('h4','',o.k),kpiViz(o),el('p','small',o.full+' ('+o.base_n+').'),el('p','meta',o.why),by);$('otg').append(c)});
-{const gx=el('div','gx'),ph=el('div','gph');gx.append(el('span','gxl','Days count from the agreed start date'));D.phases.forEach(([k,n,d])=>{const c=el('div');c.append(el('b','',n),document.createTextNode(d));ph.append(c)});gx.append(ph);$('gantt').append(gx)}
+{const gx=el('div','gx'),ph=el('div','gph'),gl=el('div','gxl'),st=el('span','gfs');
+  ph.setAttribute('role','group');ph.setAttribute('aria-label','Filter the roadmap by phase');st.id='gfs';st.setAttribute('aria-live','polite');
+  const note=el('span','','Days count from the agreed start date');note.id='gnote';gl.append(note,st);gx.append(gl);
+  D.phases.forEach(([k,n,d])=>{const c=el('button','gp'),cnt=D.recs.filter(r=>r.h===k).length,b=el('b','',n);c.type='button';c.dataset.ph=k;c.setAttribute('aria-pressed','false');
+    b.append(el('i','',String(cnt)));c.append(b,document.createTextNode(d));c.setAttribute('aria-label',n+', '+d+': '+cnt+(cnt===1?' action':' actions')+'. Show only this phase');
+    c.onclick=()=>setPhase(phsel===k?null:k,true);ph.append(c)});
+  gx.append(ph);$('gantt').append(gx)}
 const PLAN=D.recs.slice().sort((a,b)=>a.start-b.start||(+a.id.slice(1))-(+b.id.slice(1)));
 const GR=PLAN.map((r,i)=>{const b=el('button','gar');b.type='button';b.id='gr-'+r.id;b.style.setProperty('--i',i);const gl=el('span','gl'),tr=el('span','gtk'),bar=el('span','gb'),l=GX(r.start),w=GX(r.end)-l;
   gl.append(el('b','',r.id),el('span','',r.t));tr.style.setProperty('--l',l.toFixed(3)+'%');tr.style.setProperty('--w',w.toFixed(3)+'%');
@@ -1168,8 +1213,16 @@ function drawRec(user){const r=D.recs.find(x=>x.id===rsel),p=$('smart');
   const ms=el('dl','msl');r.ms.forEach(([a,b])=>{const d=el('div');d.append(el('dt','',a),el('dd','',b));ms.append(d)});
   p.replaceChildren(hd,chips,row('S','Specific',el('p','',r.s)),row('M','Measurable',el('p','',r.deliver),kp),row('A','Achievable',el('p','',r.a)),row('R','Relevant',...rk),row('T','Time-bound',ms));
   p.setAttribute('aria-label','Plan for '+r.id+': '+r.t);placeRec();if(user)swap(p)}
-function pickRec(id){rsel=id;drawRec(true);const b=$('gr-'+id),p=$('smart');
+function pickRec(id){if(phsel&&D.recs.find(x=>x.id===id).h!==phsel)setPhase(null,false);rsel=id;drawRec(true);const b=$('gr-'+id),p=$('smart');
   if(narrowPlan.matches){b.scrollIntoView({behavior:calm?'auto':'smooth',block:'start'})}else{const q=p.getBoundingClientRect();if(q.top<70||q.top>innerHeight*.55)p.scrollIntoView({behavior:calm?'auto':'smooth',block:'center'})}}
+function setPhase(k,user){phsel=k;const g=$('gantt'),st=$('gfs');if(k)g.dataset.ph=k;else delete g.dataset.ph;
+  g.querySelectorAll('.gp').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.ph===k)));
+  let n=0;PLAN.forEach((r,i)=>{const on=!k||r.h===k;GR[i].hidden=!on;if(on)GR[i].style.setProperty('--j',n++)});
+  st.replaceChildren();$('gnote').hidden=!!k;
+  if(k){const a=el('button','gall','Show all');a.type='button';a.onclick=()=>{setPhase(null,true);const f=g.querySelector('.gp[data-ph="'+k+'"]');if(f)f.focus()};
+    st.append(el('span','',D.phases.find(x=>x[0]===k)[1]+': '+n+' of '+PLAN.length+' actions'),a)}
+  if(k&&D.recs.find(x=>x.id===rsel).h!==k){rsel=PLAN.find(r=>r.h===k).id;drawRec(user)}else placeRec();
+  if(user&&!calm){g.classList.remove('refil');void g.offsetWidth;g.classList.add('refil')}}
 drawRec(false);
 if(narrowPlan.addEventListener)narrowPlan.addEventListener('change',placeRec);
 {const sc=el('div','sc'),tb=el('table'),hd=el('thead'),hr=el('tr'),bd=el('tbody');['Action','Owner','Due','Measure','Today','Target'].forEach(h=>{const c=el('th','',h);c.scope='col';hr.append(c)});hd.append(hr);
