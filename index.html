@@ -721,6 +721,54 @@ html.intro .kband::before{animation-delay:3.3s}
   .gantt .smart{margin-left:-.7rem}
 }
 @media (max-width:560px){ .otg{grid-template-columns:minmax(0,1fr)} .ot h4{min-height:0} }
+
+/* ================= round 7: daylight photography, the four models in Egypt ================= */
+/* hero: the A6 in the White Desert fills the right of the stage and dissolves into the black the headline sits on */
+.hero .car{top:0;bottom:0;right:0;left:auto;width:56%;height:auto;aspect-ratio:auto;transform:none;overflow:hidden;background:#82A7CB;-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.1) 5%,rgba(0,0,0,.36) 10%,rgba(0,0,0,.7) 15%,rgba(0,0,0,.92) 19%,#000 23%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.1) 5%,rgba(0,0,0,.36) 10%,rgba(0,0,0,.7) 15%,rgba(0,0,0,.92) 19%,#000 23%)}
+@media (min-width:1280px){.hero .car{width:58%}}
+@media (min-width:1600px){.hero .car{right:-1.4vw}}
+/* the frame is sized by its width and stands on the bottom edge; the sky above it continues as flat colour */
+.hero .car img{top:auto;bottom:-3%;left:0;width:100%;height:auto;-webkit-transform:translate3d(var(--px,0px),calc(var(--sy,0px) + var(--py,0px)),0) scale(1.03);transform:translate3d(var(--px,0px),calc(var(--sy,0px) + var(--py,0px)),0) scale(1.03)}
+.hero::after{background:linear-gradient(180deg,rgba(0,0,0,.34) 0%,rgba(0,0,0,0) 24%,rgba(0,0,0,0) 76%,rgba(0,0,0,.66) 100%)}
+.hero .models{flex-wrap:nowrap;gap:.4rem 1.15rem}
+.hero .models a{flex-direction:column;align-items:flex-start;gap:.1rem}
+@media (max-width:1279px){.hero .lead{max-width:30ch}.hero .models{flex-wrap:wrap;max-width:21rem;gap:.5rem 1.6rem}}
+.hero canvas{-webkit-mask-image:linear-gradient(90deg,#000 0%,#000 38%,rgba(0,0,0,.22) 60%);mask-image:linear-gradient(90deg,#000 0%,#000 38%,rgba(0,0,0,.22) 60%)}
+.hero h1{font-size:clamp(2.3rem,4.4vw,3.75rem)}
+
+/* models: each car in a cut-corner frame, the next one comes up out of the dark */
+.mview{aspect-ratio:16/9;overflow:hidden;background:#0D0D0D;clip-path:polygon(0 0,calc(100% - var(--c)) 0,100% var(--c),100% 100%,0 100%)}
+.mview img{-webkit-mask-image:none;mask-image:none;transform:scale(1.09);filter:brightness(.25) saturate(.5)}
+.mview img.on{transform:none;filter:none}
+.mview img.out{transform:scale(1.04)}
+
+/* rivals: the Q7 at Giza runs to the edge of the band, daylight comes up as the band arrives */
+.band.shot .bi{position:absolute;right:0;top:0;bottom:0;width:60%;min-height:0}
+.band.shot .bi img{object-fit:cover;object-position:64% 56%;-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.5) 10%,#000 23%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.5) 10%,#000 23%)}
+.band.shot .wrap{grid-template-columns:minmax(0,1fr);min-height:clamp(19rem,35vw,29rem)}
+.band.shot .bt{max-width:min(31rem,37vw)}
+#rivals .band.shot .bi.rv.on img{animation:dawn 2.4s var(--ease) .35s both}
+@keyframes dawn{from{filter:brightness(.2) saturate(.4)}to{filter:none}}
+
+/* voices: the A6 light signature */
+#voices .qimg{width:58%;opacity:1;object-position:70% 100%;-webkit-mask-image:linear-gradient(90deg,transparent 7%,#000 50%);mask-image:linear-gradient(90deg,transparent 7%,#000 50%)}
+
+@media (max-width:900px){
+  .hero::after{background:none}
+  .hero canvas{-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.2) 0%,rgba(0,0,0,.2) 26%,#000 48%);mask-image:linear-gradient(180deg,rgba(0,0,0,.2) 0%,rgba(0,0,0,.2) 26%,#000 48%)}
+  .hero .car{top:0;left:0;right:0;bottom:auto;width:100%;height:74vw;-webkit-mask-image:linear-gradient(180deg,#000 84%,transparent 100%);mask-image:linear-gradient(180deg,#000 84%,transparent 100%)}
+  .hero .car img{bottom:0}
+  .hero .lead{max-width:none}
+  .hero .wrap{padding-top:calc(74vw + .4rem)}
+  .hero h1{font-size:clamp(2.3rem,4.7vw,4rem)}
+  .hero .models{flex-wrap:wrap;max-width:none;gap:.4rem 1.7rem}
+  .band.shot{display:flex;flex-direction:column-reverse}
+  .band.shot .bi{position:relative;width:100%;height:60vw;margin-bottom:0}
+  .band.shot .bi img{object-position:62% 60%;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 34%);mask-image:linear-gradient(180deg,transparent 0%,#000 34%)}
+  .band.shot .bt{max-width:none;padding-bottom:.2rem}
+  .band.shot .wrap{min-height:0}
+  #voices .qimg{width:100%;height:130%;opacity:.42;object-position:60% 0%}
+}
 </style>
 <script>(function(){var d=document.documentElement;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return}catch(e){}d.classList.add('intro');setTimeout(function(){d.classList.add('intro-done')},3200)})();</script>
 </head>
@@ -736,7 +784,7 @@ html.intro .kband::before{animation-delay:3.3s}
 </div></div>
 
 <div class="hero" id="hero">
-  <div class="car" aria-hidden="true"><img src="img/hero.jpg" width="2000" height="923" alt=""></div>
+  <div class="car" aria-hidden="true"><img src="img/hero_a6.jpg" srcset="img/hero_a6_s.jpg 1000w, img/hero_a6.jpg 1800w" sizes="(max-width:900px) 100vw, 62vw" width="1800" height="1810" alt=""></div>
   <canvas id="fx" aria-hidden="true"></canvas>
   <div class="wrap" id="herotext">
     <p class="kicker rv">Audi Egypt consumer market research 2026</p>
@@ -802,9 +850,8 @@ html.intro .kband::before{animation-delay:3.3s}
 </div></section>
 
 <section id="rivals">
-<div class="band"><div class="wrap"><div class="bt rv"><p class="kicker">Audi against its rivals</p><h2>Rarely the expensive option, still doubted on value</h2>
-  <p class="sub" id="rivsub"></p></div>
-  <div class="bi rv" style="--d:.15s" aria-hidden="true"><img class="melt" src="img/front.jpg" alt="" loading="lazy"></div></div></div>
+<div class="band shot"><div class="bi rv" style="--d:.15s" aria-hidden="true"><img src="img/eg_q7.jpg" width="1600" height="900" alt="" loading="lazy"></div><div class="wrap"><div class="bt rv"><p class="kicker">Audi against its rivals</p><h2>Rarely the expensive option, still doubted on value</h2>
+  <p class="sub" id="rivsub"></p></div></div></div>
 <div class="wrap">
   <div class="seg" id="segs" role="group" aria-label="Segment" style="margin-bottom:var(--gap)"></div>
   <div class="chart"><h4 id="ptitle"></h4><p class="note">Official list prices in Egyptian pounds. The lighter bar runs to the lowest listed trim and the solid block spans the range up to the highest. Audi is shown in red.</p>
@@ -846,7 +893,7 @@ html.intro .kband::before{animation-delay:3.3s}
 <section id="voices" class="dk"><div class="wrap">
   <div class="sh rv"><div><p class="kicker">In their words</p><h2>Five verbatim quotes</h2></div>
   <p class="sub">Recorded word for word. All other interview material in the study is paraphrased.</p></div>
-  <div class="qbox rv" id="qbox"><img class="qimg" id="qimg" src="img/studio.jpg" alt="" aria-hidden="true" loading="lazy"><div class="qmain"><blockquote id="qtext"></blockquote><p class="by" id="qby"></p>
+  <div class="qbox rv" id="qbox"><img class="qimg" id="qimg" src="img/voices_a6.jpg" alt="" aria-hidden="true" loading="lazy"><div class="qmain"><blockquote id="qtext"></blockquote><p class="by" id="qby"></p>
     <div class="qnav"><div class="btns"><button type="button" id="qprev" aria-label="Previous quote">&#8592;</button><button type="button" id="qnext" aria-label="Next quote">&#8594;</button></div><div class="ct" id="qct"></div></div></div><div class="qprog" id="qprog" aria-hidden="true"><i></i></div></div>
 </div></section>
 
@@ -948,12 +995,12 @@ stacked($('asv'),asvRows,'Poor',['Good or Excellent','Average','Poor or Very Poo
 $('asvbase').textContent='Base: Audi owners with after-sales experience, n='+X.aftersales[0].n+'. Not Applicable excluded.';
 
 /* ---------- models ---------- */
-const MORDER=['A3','A6','Q3','Q7'],MIMG={A3:'img/m_a3.jpg',A6:'img/m_a6.jpg',Q3:'img/m_q3.jpg',Q7:'img/m_q7.jpg'};
+const MORDER=['A3','A6','Q3','Q7'],MIMG={A3:'img/eg_a3.jpg',A6:'img/eg_a6.jpg',Q3:'img/eg_q3.jpg',Q7:'img/eg_q7.jpg'};
 const GA=[['Would recommend Audi','ratings','Would recommend Audi'],['Would buy another Audi','ratings','Would buy another Audi'],['Rate price and value at 4 or 5','ratings','Price and value'],['Rate the cost of servicing well','aftersales','Cost of servicing']];
 let mcur='A3';
 const MT=MORDER.map(k=>{const c=D.mcards.find(x=>x.k===k),b=el('button');b.type='button';b.id='mt-'+k;b.setAttribute('role','tab');b.setAttribute('aria-controls','minfo');b.append(el('b','',k),el('small','',c.n+' owners'+(c.n<20?', directional':'')));b.onclick=()=>setModel(k);
   b.onkeydown=e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const n=MORDER[(MORDER.indexOf(mcur)+(e.key==='ArrowRight'?1:3))%4];setModel(n);$('mt-'+n).focus()}};$('mtabs').append(b);return b});
-const MI=MORDER.map(k=>{const im=el('img');im.src=MIMG[k];im.alt='';im.width=1500;im.height=750;im.decoding='async';if(k===mcur)im.className='on';$('mcar').append(im);return im});
+const MI=MORDER.map(k=>{const im=el('img');im.src=MIMG[k];im.alt='';im.width=1600;im.height=900;im.decoding='async';im.loading='lazy';if(k===mcur)im.className='on';$('mcar').append(im);return im});
 const GG=GA.map(([lab])=>{const g=el('div','gauge'),w=el('div','gw');
   w.innerHTML='<svg viewBox="0 0 120 120" aria-hidden="true"><g class="gk">'+[0,25,50,75,100].map(v=>'<line x1="113" y1="60" x2="'+(v%50===0?118:116)+'" y2="60" transform="rotate('+(135+2.7*v)+' 60 60)"/>').join('')+'</g><circle class="gt" cx="60" cy="60" r="48" pathLength="100" stroke-dasharray="75 100" transform="rotate(135 60 60)"/><circle class="gv" cx="60" cy="60" r="48" pathLength="100" stroke-dasharray="0 100" transform="rotate(135 60 60)"/><line class="gr" x1="111" y1="60" x2="120" y2="60"/><line class="gn" x1="100" y1="60" x2="112" y2="60"/></svg>';
   w.append(el('div','gnum'));g.append(w,el('p','',lab),el('small',''));g.setAttribute('role','img');$('gauges').append(g);return g});
